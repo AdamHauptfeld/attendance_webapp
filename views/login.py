@@ -24,10 +24,11 @@ def main():
     
     with st.form('Login Form'):
         fname = st.text_input('First Name')
-        fname = fname.lower()
+        fname = fname.strip().lower()
         lname = st.text_input('Last Name')
-        lname = lname.lower()
+        lname = lname.strip().lower()
         submitted_code = str(st.text_input('Today\'s Code')).lower()
+        submitted_code = submitted_code.strip()
         submitted = st.form_submit_button("Log in")
 
         if submitted:
