@@ -51,7 +51,7 @@ def main():
                 column_headers = cursor_result.keys()   # Get column names
                 student_attendance_record = pd.DataFrame(rows, columns=column_headers)  # Create DataFrame
                 st.subheader("Attendance Record")
-                st.write(f"📋 Showing {len(student_attendance_record)} records")
+                st.write(f"Showing {len(student_attendance_record)} records")
                 st.dataframe(student_attendance_record, hide_index=True)
             else:
                 st.subheader(':red[Incorrect code]')
