@@ -8,7 +8,9 @@ from sqlalchemy import text
 conn = st.connection("neon", type="sql")
 admin_pw = st.secrets['admin_password']
 
-today_date = '2025-06-08'
+today_date = datetime.today().strftime('%Y-%m-%d')
+
+yes = 'yes'
 
 def admin_login():
     given_pw = st.text_input('Enter admin password: ')
@@ -27,11 +29,17 @@ def set_daily_code():
             if submitted:
                 with conn.session as session:
                     session.execute(text("""
-                                INSERT INTO passwords (daily_code, date) 
-                                VALUES (:daily_code, :date)
-                                ON CONFLICT (date) 
+                                INSERT INTO passwords (daily_code, only_code) 
+                                VALUES (:daily_code, 'yes')
+                                ON CONFLICT (only_code) 
                                 DO UPDATE SET daily_code = :daily_code
-                            """), {"daily_code": daily_code, "date": today_date})
+                            """), {"daily_code": daily_code})
+                    session.execute(text("""
+                                INSERT INTO date (class_date) 
+                                VALUES (:today_date)
+                                ON CONFLICT (class_date) 
+                                DO NOTHING
+                            """), {"today_date": today_date})
                     session.commit()
                 st.write('Code submitted: ', daily_code)
                 
