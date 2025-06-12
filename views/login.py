@@ -27,7 +27,7 @@ def main():
     
 
 
-    st.header('Prof. Hauptfeld\'s Class Log')
+    st.header('Class Login Webapp')
     
     with st.form('Login Form'):
         first_name = st.text_input('First Name')
