@@ -18,11 +18,14 @@ def main():
         code_query_result = session.execute(text(f"SELECT daily_code FROM passwords"))
         daily_code = code_query_result.fetchone()
         daily_code = daily_code[0]
+        session.close()
 
     # This gets the class names to populate the select box
     with conn.session as session:
         class_name_results = session.execute(text("SELECT class_name FROM class"))
-    class_names = [row[0] for row in class_name_results.fetchall()]
+        class_names = [row[0] for row in class_name_results.fetchall()]
+        session.close()
+    
 
     
 
@@ -52,6 +55,7 @@ def main():
                                             "ON CONFLICT (student_id, class_id, date_id) DO NOTHING"),
                                     {"first_name": first_name, "last_name": last_name, "date": today_date, "class_name": class_name})
                     session.commit()
+                    session.close()
                 st.write('Successfully logged in as ', first_name, ' ', last_name, ' for ', today_date, '.')
 
                 #This gets the student's attendance record as a cursor object in a singleton tuple
@@ -64,14 +68,15 @@ def main():
                                                     "WHERE student.first_name = :first_name AND student.last_name = :last_name"),
                                             {"first_name": first_name, "last_name": last_name})
 
-                
-                student_attendance_record = pd.DataFrame(result.fetchall(), columns=result.keys())
+
+                    student_attendance_record = pd.DataFrame(result.fetchall(), columns=result.keys())
+                    session.close()
                 st.subheader("Attendance Record")
                 st.write(f"Showing {len(student_attendance_record)} records")
                 st.dataframe(student_attendance_record, hide_index=True)
             else:
                 st.subheader(':red[Incorrect code]')
 
-
+    conn._instance.dispose()
 
 main()
