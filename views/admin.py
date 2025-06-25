@@ -41,6 +41,8 @@ def set_daily_code():
                                 DO NOTHING
                             """), {"today_date": today_date})
                     session.commit()
+                    session.close()
+                conn._instance.dispose()
                 st.write('Code submitted: ', daily_code)
                 
 
