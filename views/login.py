@@ -8,7 +8,7 @@ from datetime import datetime
 
 def main():
     # Establish connection to database
-    conn = st.connection("neon", type="sql")
+    # conn = st.connection("neon", type="sql")
 
     #Get the day's date
     today_date = datetime.today().strftime('%Y-%m-%d')
