@@ -14,7 +14,7 @@ def main():
     today_date = datetime.today().strftime('%Y-%m-%d')
 
     # Get the daily code from the passwords database
-    # with conn.session as session:
+    with conn.session as session:
         code_query_result = session.execute(text(f"SELECT daily_code FROM passwords"))
         daily_code = code_query_result.fetchone()
         daily_code = daily_code[0]
