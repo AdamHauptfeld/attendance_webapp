@@ -14,14 +14,14 @@ def main():
     today_date = datetime.today().strftime('%Y-%m-%d')
 
     # Get the daily code from the passwords database
-    # with conn.session as session:
+    with conn.session as session:
         code_query_result = session.execute(text(f"SELECT daily_code FROM passwords"))
         daily_code = code_query_result.fetchone()
         daily_code = daily_code[0]
         session.close()
 
     # This gets the class names to populate the select box
-    # with conn.session as session:
+    with conn.session as session:
         class_name_results = session.execute(text("SELECT class_name FROM class"))
         class_names = [row[0] for row in class_name_results.fetchall()]
         session.close()
